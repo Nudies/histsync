@@ -205,7 +205,7 @@ command_resource_fields = {
 class UserCommands(Resource):
     @staticmethod
     def _get_user_checking_credentials(username, api_key):
-        user = User.query.filter_by(name=username, api_key=api_key).first()
+        user = User.query.filter_by(name=username).first()
         if not user:
             fr_abort(403, message="No such user")
 
@@ -242,7 +242,7 @@ def authorized(access_token):
         raise Exception("TODO: handle absent access token!")
 
     user_json = github.get("user".format(), params={'access_token': access_token})
-    user = get_or_create(User, name=user_json["login"], email=user_json.get("email"), github_access_token=access_token)
+    user = get_or_create(User, name=user_json["login"], email=user_json.get("email"))
     db.session.commit()
     login_user(user)
     return redirect(next_url)
