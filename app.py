@@ -205,7 +205,7 @@ command_resource_fields = {
 class UserCommands(Resource):
     @staticmethod
     def _get_user_checking_credentials(username, api_key):
-        user = User.query.filter_by(name=username).first()
+        user = User.query.filter_by(name=username, api_key=api_key).first()
         if not user:
             fr_abort(403, message="No such user")
 
